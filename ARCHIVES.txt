@@ -1,0 +1,28 @@
+--COMMANDES ARCHIVES
+
+Spring project clean :
+_./mvnw clean compile
+
+Start spring-boot app
+_./mvnw spring-boot:run
+
+Stop and remove all container
+_podman compose down 
+
+Start all container
+_podman compose up -d
+
+List all container
+_podman ps
+
+Tester PostgreSQL (sans installer de client) :
+_podman exec speedwheel_postgres psql -U admin -d speedwheel -c "SELECT 1;"
+
+Tester Redis :
+_podman exec speedwheel_redis redis-cli PING -> PONG
+
+Voir les redirections de port : 
+_netsh interface portproxy show all
+
+
+
