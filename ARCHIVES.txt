@@ -24,5 +24,6 @@ _podman exec speedwheel_redis redis-cli PING -> PONG
 Voir les redirections de port : 
 _netsh interface portproxy show all
 
-
+Pour voir tes deux commits, tape :
+_git log --oneline
 
