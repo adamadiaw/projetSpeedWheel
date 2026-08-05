@@ -1,0 +1,50 @@
+# --- Java / Maven / Spring Boot ---
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/*.log
+backend/.idea/
+backend/.vscode/
+backend/.classpath
+backend/.project
+backend/.settings/
+
+# --- Angular / Node ---
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.vscode/
+frontend/.idea/
+frontend/package-lock.json
+frontend/yarn.lock
+
+# --- Infra / Podman / Jenkins ---
+infra/jenkins_home/
+infra/*.log
+infra/.env
+
+# --- Windows / OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDE (global) ---
+.vscode/
+.idea/
+*.iml
+
+# --- Logs et fichiers temporaires ---
+*.log
+*.tmp
+*.pid
+*.seed
+*.pid.lock
+*.swp
+*.swo
+
+# --- Sécurité (NE JAMAIS COMMITER) ---
+*.pem
+*.key
+*.crt
+*.env.local
