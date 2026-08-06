@@ -29,6 +29,7 @@ services:
   jenkins:
     image: jenkins/jenkins:lts
     container_name: speedwheel_jenkins
+    privileged: true
     ports:
       - "8088:8080"
       - "50000:50000"
