@@ -34,9 +34,8 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    // On lance un conteneur de test pour vérifier que ça démarre
-                    sh 'podman run -d --name test-backend -p 8081:8080 speedwheel-backend:latest'
-                    // On attend un peu que le conteneur démarre
+                    // On utilise --network=host pour éviter les problèmes de /dev/net/tun
+                    sh 'podman run -d --name test-backend --network=host speedwheel-backend:latest'
                     sh 'sleep 10'
                 }
             }
@@ -45,8 +44,8 @@ pipeline {
         stage('Test API') {
             steps {
                 script {
-                    // On fait une requête HTTP vers l'API pour vérifier qu'elle répond
-                    sh 'curl -f http://localhost:8081/api/vehicules || exit 1'
+                    // On teste directement sur le port 8080 du conteneur Jenkins
+                    sh 'curl -f http://localhost:8080/api/vehicules || exit 1'
                 }
             }
         }
