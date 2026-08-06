@@ -16,18 +16,11 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    sh 'mvn clean compile -DskipTests'
+                    // On compile ET on crée le fichier .jar final (sans les tests)
+                    sh 'mvn clean package -DskipTests'
                 }
             }
         }
-
-        // stage('Test Backend') {
-        //     steps {
-        //         dir('backend') {
-        //             sh 'mvn test'
-        //         }
-        //     }
-        // }
 
         stage('Build Docker Image') {
             steps {
