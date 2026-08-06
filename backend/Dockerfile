@@ -1,5 +1,5 @@
 # Étape 1 : Build de l'application avec Maven
-FROM maven:3.9.9-eclipse-temurin-21 AS build
+FROM docker.io/maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline
