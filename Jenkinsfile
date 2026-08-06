@@ -34,8 +34,10 @@ pipeline {
         stage('Save Docker Image') {
             steps {
                 script {
-                    // Le -f (force) permet d'écraser le fichier .tar s'il existe déjà
-                    sh 'podman save -o speedwheel-backend.tar -f speedwheel-backend:latest'
+                    // On supprime l'ancien fichier s'il existe (pour éviter l'erreur "modifying existing images")
+                    sh 'rm -f speedwheel-backend.tar || true'
+                    // On crée le nouveau fichier
+                    sh 'podman save -o speedwheel-backend.tar speedwheel-backend:latest'
                 }
             }
         }
