@@ -12,6 +12,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - speedwheel_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7-alpine
@@ -30,6 +35,23 @@ services:
     volumes:
       - ./jenkins_home:/var/jenkins_home
     user: root
+    networks:
+      - speedwheel_network
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: speedwheel_backend
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:postgresql://postgres:5432/speedwheel
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin123
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - speedwheel_network
 
