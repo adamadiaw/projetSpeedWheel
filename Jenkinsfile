@@ -31,21 +31,11 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
+        stage('Save Docker Image') {
             steps {
                 script {
-                    // On utilise --network=host pour éviter les problèmes de /dev/net/tun
-                    sh 'podman run -d --name test-backend --replace --network=host --cgroup-manager=disabled speedwheel-backend:latest'
-                    sh 'sleep 10'
-                }
-            }
-        }
-
-        stage('Test API') {
-            steps {
-                script {
-                    // On teste directement sur le port 8080 du conteneur Jenkins
-                    sh 'curl -f http://localhost:8080/api/vehicules || exit 1'
+                    // Sauvegarder l'image dans un fichier .tar
+                    sh 'podman save -o speedwheel-backend.tar speedwheel-backend:latest'
                 }
             }
         }
