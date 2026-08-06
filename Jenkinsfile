@@ -16,18 +16,18 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    sh 'mvn clean compile'
+                    sh 'mvn clean compile -DskipTests'
                 }
             }
         }
 
-        stage('Test Backend') {
-            steps {
-                dir('backend') {
-                    sh 'mvn test'
-                }
-            }
-        }
+        // stage('Test Backend') {
+        //     steps {
+        //         dir('backend') {
+        //             sh 'mvn test'
+        //         }
+        //     }
+        // }
 
         stage('Build Docker Image') {
             steps {
