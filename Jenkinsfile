@@ -34,8 +34,8 @@ pipeline {
         stage('Save Docker Image') {
             steps {
                 script {
-                    // Sauvegarder l'image dans un fichier .tar
-                    sh 'podman save -o speedwheel-backend.tar speedwheel-backend:latest'
+                    // Le -f (force) permet d'écraser le fichier .tar s'il existe déjà
+                    sh 'podman save -o speedwheel-backend.tar -f speedwheel-backend:latest'
                 }
             }
         }
