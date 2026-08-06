@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script {
                     // On utilise --network=host pour éviter les problèmes de /dev/net/tun
-                    sh 'podman run -d --name test-backend --replace --network=host speedwheel-backend:latest'
+                    sh 'podman run -d --name test-backend --replace --network=host --cgroup-manager=disabled speedwheel-backend:latest'
                     sh 'sleep 10'
                 }
             }
