@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKER_HOST = "unix:///run/podman/podman.sock"
-        CONTAINER_HOST = "unix:///run/podman/podman.sock"
     }
 
     tools {
@@ -29,8 +28,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Utiliser podman-remote (qui utilise le socket de l'hôte)
-                    sh 'podman-remote build -t speedwheel-backend:latest backend/'
+                    sh 'podman build -t speedwheel-backend:latest backend/'
                 }
             }
         }
@@ -38,8 +36,7 @@ pipeline {
         stage('Save Docker Image') {
             steps {
                 script {
-                    // Utiliser podman-remote
-                    sh 'podman-remote save -o speedwheel-backend.tar speedwheel-backend:latest'
+                    sh 'podman save -o speedwheel-backend.tar speedwheel-backend:latest'
                 }
             }
         }
