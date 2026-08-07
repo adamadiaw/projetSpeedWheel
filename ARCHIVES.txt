@@ -31,4 +31,14 @@ Lance tout le stack (Postgres, Redis, Jenkins, ET le backend) :
 _podman-compose up -d --build
 (Le --build est important : il force Docker à recompiler l'image du backend à chaque fois)
 
-Jenkins installation de java_home : /opt/java/openjdk
+Jenkins installation de java_home : /opt/java/OpenJDK
+
+Générer l'image du backend dans le conteneur Jenkins :
+_podman exec speedwheel_jenkins podman save speedwheel-backend:latest -o speedwheel-backend.tar
+
+Extraire le fichier du conteneur vers Windows pc :
+_podman cp speedwheel_jenkins:/speedwheel-backend.tar .
+
+Nettoyer le conteneur (Optionnel):
+_podman exec speedwheel_jenkins rm /speedwheel-backend.tar
+
