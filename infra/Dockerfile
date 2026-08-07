@@ -9,7 +9,7 @@ RUN apt-get update && \
 
 # Configuration de Podman pour utiliser vfs (plus fiable en conteneur)
 RUN mkdir -p /etc/containers && \
-    echo -e "[storage]\ndriver = \"vfs\"" > /etc/containers/storage.conf && \
-    echo -e "[registries.search]\nregistries = ['docker.io']" > /etc/containers/registries.conf
+    echo 'storage = "vfs"' > /etc/containers/storage.conf && \
+    echo 'unqualified-search-registries = ["docker.io"]' > /etc/containers/registries.conf
 
 USER jenkins
