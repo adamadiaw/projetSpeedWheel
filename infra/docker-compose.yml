@@ -29,7 +29,7 @@ services:
   jenkins:
     build:
       context: .
-      dockerfile: Dockerfile.jenkins
+      dockerfile: Dockerfile
     container_name: speedwheel_jenkins
     privileged: true
     ports:
@@ -37,6 +37,7 @@ services:
       - "50000:50000"
     volumes:
       - jenkins_home_vol:/var/jenkins_home
+      - /run/user/1000/podman/podman.sock:/run/podman/podman.sock
     user: root
     networks:
       - speedwheel_network

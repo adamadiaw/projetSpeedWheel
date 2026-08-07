@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HOST = "unix:///run/podman/podman.sock"
+    }
+    
     tools {
         maven 'Maven'    // On utilisera Maven qu'on va configurer dans Jenkins
         jdk 'JDK21'      // On utilisera JDK 21
