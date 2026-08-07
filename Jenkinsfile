@@ -3,11 +3,12 @@ pipeline {
 
     environment {
         DOCKER_HOST = "unix:///run/podman/podman.sock"
+        CONTAINER_HOST = "unix:///run/podman/podman.sock"
     }
-    
+
     tools {
-        maven 'Maven'    // On utilisera Maven qu'on va configurer dans Jenkins
-        jdk 'JDK21'      // On utilisera JDK 21
+        maven 'Maven'
+        jdk 'JDK21'
     }
 
     stages {
@@ -20,7 +21,6 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    // On compile ET on crée le fichier .jar final (sans les tests)
                     sh 'mvn clean package -DskipTests'
                 }
             }
@@ -29,8 +29,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // On construit l'image Docker en utilisant le Dockerfile du backend
-                    sh 'podman build -t speedwheel-backend:latest backend/'
+                    // Utiliser podman-remote (qui utilise le socket de l'hôte)
+                    sh 'podman-remote build -t speedwheel-backend:latest backend/'
                 }
             }
         }
@@ -38,10 +38,8 @@ pipeline {
         stage('Save Docker Image') {
             steps {
                 script {
-                    // On supprime l'ancien fichier s'il existe (pour éviter l'erreur "modifying existing images")
-                    sh 'rm -f speedwheel-backend.tar || true'
-                    // On crée le nouveau fichier
-                    sh 'podman save -o speedwheel-backend.tar speedwheel-backend:latest'
+                    // Utiliser podman-remote
+                    sh 'podman-remote save -o speedwheel-backend.tar speedwheel-backend:latest'
                 }
             }
         }
@@ -49,15 +47,17 @@ pipeline {
         stage('Cleanup') {
             steps {
                 script {
-                    // On arrête et supprime le conteneur de test
-                    sh 'podman stop test-backend || true'
-                    sh 'podman rm test-backend || true'
+                    sh 'podman-remote stop test-backend || true'
+                    sh 'podman-remote rm test-backend || true'
                 }
             }
         }
     }
 
     post {
+        always {
+            cleanWs()
+        }
         success {
             echo 'Pipeline terminé avec succès !'
         }
