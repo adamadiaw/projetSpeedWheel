@@ -31,7 +31,4 @@ Lance tout le stack (Postgres, Redis, Jenkins, ET le backend) :
 _podman-compose up -d --build
 (Le --build est important : il force Docker à recompiler l'image du backend à chaque fois)
 
-
-
-
-
+Jenkins installation de java_home : /opt/java/openjdk
