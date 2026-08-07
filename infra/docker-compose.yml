@@ -27,7 +27,9 @@ services:
       - speedwheel_network
 
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
     container_name: speedwheel_jenkins
     privileged: true
     ports:
