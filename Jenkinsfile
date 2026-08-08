@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HOST = "unix:///run/podman/podman.sock"
+        IMAGE_NAME = "adamadiaw/speedwheel-backend:latest" 
     }
 
     tools {
@@ -28,24 +29,17 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'podman build -t speedwheel-backend:latest backend/'
+                    sh "podman build -t ${IMAGE_NAME} backend/"
                 }
             }
         }
 
-        stage('Save Docker Image') {
+        stage('Push Docker Image') {
             steps {
                 script {
-                    sh 'podman save -o speedwheel-backend.tar speedwheel-backend:latest'
-                }
-            }
-        }
-
-        stage('Cleanup') {
-            steps {
-                script {
-                    sh 'podman-remote stop test-backend || true'
-                    sh 'podman-remote rm test-backend || true'
+                    withDockerRegistry([credentialsId: "docker-hub-credentials", url: ""]) {
+                        sh "podman push ${IMAGE_NAME}"
+                    }
                 }
             }
         }
