@@ -44,11 +44,7 @@ services:
       - speedwheel_network
 
   frontend:
-    # Pour l'instant, on utilise l'image que tu as construite en local
-    # Demain, on pourra pousser aussi le frontend sur Docker Hub
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: adamadiaw/speedwheel-frontend:latest
     container_name: speedwheel_frontend
     ports:
       - "4200:80"
