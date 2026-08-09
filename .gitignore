@@ -16,7 +16,6 @@ frontend/dist/
 frontend/.angular/
 frontend/.vscode/
 frontend/.idea/
-frontend/package-lock.json
 frontend/yarn.lock
 
 # --- Infra / Podman / Jenkins ---
