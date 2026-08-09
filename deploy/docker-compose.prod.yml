@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: speedwheel_postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: speedwheel
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - speedwheel_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: speedwheel_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - speedwheel_network
+
+  backend:
+    image: adamadiaw/speedwheel-backend:latest
+    container_name: speedwheel_backend
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:postgresql://postgres:5432/speedwheel
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin123
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - speedwheel_network
+
+  frontend:
+    # Pour l'instant, on utilise l'image que tu as construite en local
+    # Demain, on pourra pousser aussi le frontend sur Docker Hub
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: speedwheel_frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - speedwheel_network
+
+volumes:
+  postgres_data:
+
+networks:
+  speedwheel_network:
+    driver: bridge
