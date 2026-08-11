@@ -49,3 +49,6 @@ desktop.ini
 *.env.local
 
 *.tar
+
+# Secrets Kubernetes
+deploy/secrets.yaml
