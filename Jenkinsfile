@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HOST = "unix:///run/podman/podman.sock"
+        // Nettoyage de DOCKER_HOST car géré par le volume du conteneur
         IMAGE_NAME = "adamadiaw/speedwheel-backend:latest" 
     }
 
@@ -29,10 +29,13 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Nettoyer les caches corrompus (auto-réparation du bug boot ID)
+                    // Nettoyer les caches locaux du conteneur si nécessaire
                     sh 'rm -rf /run/containers/storage /run/libpod || true'
-                    // Construire l'image
-                    sh "podman build -t ${IMAGE_NAME} backend/"
+                    
+                    // CORRECTION : On se place dans le dossier 'backend' pour lancer le build
+                    dir('backend') {
+                        sh "podman build -t ${IMAGE_NAME} ."
+                    }
                 }
             }
         }
