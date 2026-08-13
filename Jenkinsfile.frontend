@@ -2,8 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // CORRECTION : Utiliser le socket utilisateur 1000 configuré dans le conteneur
-        DOCKER_HOST = "unix:///run/user/1000/podman/podman.sock"
         IMAGE_NAME = "adamadiaw/speedwheel-frontend:latest"
     }
 
