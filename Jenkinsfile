@@ -29,6 +29,9 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    // Nettoyer les caches corrompus (auto-réparation du bug boot ID)
+                    sh 'rm -rf /run/containers/storage /run/libpod || true'
+                    // Construire l'image
                     sh "podman build -t ${IMAGE_NAME} backend/"
                 }
             }
