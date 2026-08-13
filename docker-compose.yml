@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: speedwheel_backend_local
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://postgres-db:5432/defaultdb
+      DB_USERNAME: admin
+      DB_PASSWORD: admin123
+    networks:
+      - shared-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: speedwheel_frontend_local
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - shared-net
+
+networks:
+  shared-net:
+    external: true
