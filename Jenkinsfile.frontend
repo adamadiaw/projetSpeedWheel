@@ -2,12 +2,13 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HOST = "unix:///run/podman/podman.sock"
+        // CORRECTION : Utiliser le socket utilisateur 1000 configuré dans le conteneur
+        DOCKER_HOST = "unix:///run/user/1000/podman/podman.sock"
         IMAGE_NAME = "adamadiaw/speedwheel-frontend:latest"
     }
 
     tools {
-        nodejs 'NodeJS'  // On va configurer NodeJS dans Jenkins
+        nodejs 'NodeJS'
     }
 
     stages {
