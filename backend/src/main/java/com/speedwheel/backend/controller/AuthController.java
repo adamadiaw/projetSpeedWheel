@@ -2,7 +2,8 @@ package com.speedwheel.backend.controller;
 
 import com.speedwheel.backend.dto.LoginRequest;
 import com.speedwheel.backend.entity.User;
-import com.speedwheel.backend.repository.UserRepository;
+import com.speedwheel.backend.security.JwtUtil;
+import com.speedwheel.backend.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,24 +11,23 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class AuthController {
 
-    private final UserRepository userRepository;
+     private final JwtUtil jwtUtil;
 
-    AuthController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private final AuthService authService;
+
+    AuthController(AuthService authService, JwtUtil jwtUtil) {
+        this.authService = authService;
+        this.jwtUtil = jwtUtil;
+    }
+
+    @PostMapping("/register")
+    public User register(@RequestBody User user) {
+        return authService.register(user);
     }
 
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest request) {
-        // Chercher l'utilisateur par email
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
-
-        // Vérifier le mot de passe (pour l'instant, on compare en clair)
-        if (!user.getPassword().equals(request.getPassword())) {
-            throw new RuntimeException("Mot de passe incorrect");
-        }
-
-        //  Retourner un faux token (on le générera plus tard)
-        return "token-simulé-pour-" + user.getEmail();
+        User user = authService.login(request.getEmail(), request.getPassword());
+        return jwtUtil.generateToken(user.getEmail());
     }
 }
