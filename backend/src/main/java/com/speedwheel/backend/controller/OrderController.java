@@ -4,7 +4,6 @@ import com.speedwheel.backend.entity.Order;
 import com.speedwheel.backend.entity.User;
 import com.speedwheel.backend.repository.UserRepository;
 import com.speedwheel.backend.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
