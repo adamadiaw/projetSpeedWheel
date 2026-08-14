@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "vehicules")
-@Data // Génère getters, setters, toString, equals, hashCode
-@NoArgsConstructor // Génère un constructeur vide (obligatoire pour JPA)
-@AllArgsConstructor // Génère un constructeur avec tous les champs
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vehicule {
 
     @Id
@@ -46,5 +46,10 @@ public class Vehicule {
     private String description;
 
     @Column(name = "date_ajout", nullable = false)
-    private LocalDateTime dateAjout = LocalDateTime.now();
+    private LocalDateTime dateAjout;
+
+    @PrePersist
+    public void prePersist() {
+        this.dateAjout = LocalDateTime.now();
+    }
 }
