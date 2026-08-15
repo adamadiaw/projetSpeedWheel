@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+COPY src/environments/environments.prod.ts ./src/environments/environments.ts
 RUN npm run build --prod
 
 # Étape 2 : Servir l'application avec Nginx
