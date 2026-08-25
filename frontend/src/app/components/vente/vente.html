@@ -1,0 +1,46 @@
+<div class="container">
+  <h2>Vendez votre voiture</h2>
+
+  <div class="form-container">
+    <h3>Informations du véhicule</h3>
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <label>Marque</label>
+        <input type="text" [(ngModel)]="formData.marque" name="marque" required>
+      </div>
+      <div>
+        <label>Modèle</label>
+        <input type="text" [(ngModel)]="formData.modele" name="modele" required>
+      </div>
+      <div>
+        <label>Année</label>
+        <input type="number" [(ngModel)]="formData.annee" name="annee" required>
+      </div>
+      <div>
+        <label>Couleur</label>
+        <input type="text" [(ngModel)]="formData.couleur" name="couleur" required>
+      </div>
+      <div>
+        <label>Prix</label>
+        <input type="number" [(ngModel)]="formData.prix" name="prix" required>
+      </div>
+      <div>
+        <label>Kilométrage</label>
+        <input type="number" [(ngModel)]="formData.kilometrage" name="kilometrage" required>
+      </div>
+      <div>
+        <label>Carburant</label>
+        <input type="text" [(ngModel)]="formData.carburant" name="carburant" required>
+      </div>
+      <div>
+        <label>Transmission</label>
+        <input type="text" [(ngModel)]="formData.transmission" name="transmission" required>
+      </div>
+      <div>
+        <label>Description</label>
+        <textarea [(ngModel)]="formData.description" name="description" rows="4"></textarea>
+      </div>
+      <button type="submit">Soumettre à la vente</button>
+    </form>
+  </div>
+</div>

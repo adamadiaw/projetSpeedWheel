@@ -23,13 +23,8 @@
   font-weight: bold;
 }
 
-.badge-new {
-  background-color: #28a745;
-  color: white;
-}
-
-.badge-sold {
-  background-color: #ff6b6b;
+.badge-import {
+  background-color: #a20157;
   color: white;
 }
 
@@ -70,22 +65,10 @@
   margin-bottom: 10px;
 }
 
-.spec {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
 .warranty {
   display: flex;
   align-items: center;
   gap: 5px;
   color: #28a745;
   font-size: 13px;
-}
-
-@media (max-width: 768px) {
-  .card-image {
-    height: 150px;
-  }
 }

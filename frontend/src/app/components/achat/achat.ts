@@ -1,18 +1,16 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { VehiculeService, Vehicule } from '../../services/vehicule.service';
 import { SaleService } from '../../services/sale.service';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-achat',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './home.html',
-  styleUrl: './home.css'
+  imports: [CommonModule],
+  templateUrl: './achat.html',
+  styleUrl: './achat.css'
 })
-export class Home {
-  query = '';
+export class Achat {
   vehicules = signal<Vehicule[]>([]);
 
   constructor(
@@ -25,28 +23,18 @@ export class Home {
   }
 
   loadVehicules(): void {
-    this.vehiculeService.getAll().subscribe({
+    this.vehiculeService.getByStatus('A_VENDRE').subscribe({
       next: (data) => {
         this.vehicules.set(data);
       },
       error: (err) => {
-        console.error('Erreur lors de la récupération des véhicules :', err);
-      }
-    });
-  }
-
-  search(): void {
-    this.vehiculeService.search(this.query).subscribe({
-      next: (data) => {
-        this.vehicules.set(data);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la recherche :', err);
+        console.error('Erreur lors de la récupération des véhicules à vendre:', err);
       }
     });
   }
 
   onBuy(vehicule: Vehicule): void {
+    // Appeler le service de vente pour acheter ce véhicule
     this.saleService.createSale(vehicule.id).subscribe({
       next: () => {
         alert(`Le véhicule ${vehicule.marque} ${vehicule.modele} a été acheté !`);

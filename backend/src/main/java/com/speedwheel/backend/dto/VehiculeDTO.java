@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import java.math.BigDecimal;
 
+import com.speedwheel.backend.entity.VehiculeStatus;
+
 @Data
 public class VehiculeDTO {
 
@@ -36,4 +38,11 @@ public class VehiculeDTO {
     private String transmission;
 
     private String description;
+
+    @NotNull(message = "La garantie est obligatoire")
+    @Positive(message = "La garantie doit être positive")
+    private Integer garantie; // Durée de garantie en mois
+
+    @NotNull(message = "Le statut est obligatoire")
+    private VehiculeStatus status;
 }

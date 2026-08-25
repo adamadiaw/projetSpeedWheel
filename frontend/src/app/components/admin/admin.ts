@@ -15,7 +15,7 @@ export class Admin {
   isEditing = signal(false);
   selectedVehicule = signal<Vehicule | null>(null);
 
-  formData: VehiculeForm = {
+    formData: VehiculeForm = {
     marque: '',
     modele: '',
     annee: 2024,
@@ -24,7 +24,9 @@ export class Admin {
     kilometrage: 0,
     carburant: '',
     transmission: '',
-    description: ''
+    description: '',
+    status: 'DISPONIBLE',
+    garantie: 12
   };
 
   constructor(private vehiculeService: VehiculeService) {}
@@ -53,7 +55,7 @@ export class Admin {
     }
   }
 
-  onEdit(vehicule: Vehicule): void {
+    onEdit(vehicule: Vehicule): void {
     this.isEditing.set(true);
     this.selectedVehicule.set(vehicule);
     this.formData = {
@@ -65,7 +67,9 @@ export class Admin {
       kilometrage: vehicule.kilometrage,
       carburant: vehicule.carburant,
       transmission: vehicule.transmission,
-      description: vehicule.description
+      description: vehicule.description,
+      status: vehicule.status,    
+      garantie: vehicule.garantie 
     };
   }
 
@@ -75,7 +79,7 @@ export class Admin {
     });
   }
 
-  resetForm(): void {
+    resetForm(): void {
     this.isEditing.set(false);
     this.selectedVehicule.set(null);
     this.formData = {
@@ -87,7 +91,9 @@ export class Admin {
       kilometrage: 0,
       carburant: '',
       transmission: '',
-      description: ''
+      description: '',
+      status: 'DISPONIBLE',
+      garantie: 12      
     };
   }
 }

@@ -24,12 +24,7 @@
 }
 
 .badge-new {
-  background-color: #28a745;
-  color: white;
-}
-
-.badge-sold {
-  background-color: #ff6b6b;
+  background-color: #008709;
   color: white;
 }
 
@@ -70,22 +65,20 @@
   margin-bottom: 10px;
 }
 
-.spec {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
 .warranty {
   display: flex;
   align-items: center;
   gap: 5px;
   color: #28a745;
   font-size: 13px;
+  margin-bottom: 10px;
 }
 
-@media (max-width: 768px) {
-  .card-image {
-    height: 150px;
-  }
+button {
+  background-color: var(--primary);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }

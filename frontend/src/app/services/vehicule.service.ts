@@ -15,7 +15,30 @@ export interface Vehicule {
   transmission: string;
   description: string;
   dateAjout: string;
+  status: VehiculeStatus;
+  garantie: number; // Durée de garantie en mois
 }
+
+export type VehiculeStatus =
+  | 'A_LOUER'
+  | 'A_VENDRE'
+  | 'LOUER'
+  | 'VENDU'
+  | 'IMPORTE'
+  | 'EXPORTE'
+  | 'EN_MAINTENANCE'
+  | 'DISPONIBLE';
+
+export const VEHICULE_STATUS_LABELS: Record<VehiculeStatus, string> = {
+  A_LOUER: 'À louer',
+  A_VENDRE: 'À vendre',
+  LOUER: 'Loué',
+  VENDU: 'Vendu',
+  IMPORTE: 'Importé',
+  EXPORTE: 'Exporter',
+  EN_MAINTENANCE: 'En maintenance',
+  DISPONIBLE: 'Disponible'
+};
 
 // Type pour le formulaire (sans id ni dateAjout)
 export interface VehiculeForm {
@@ -28,6 +51,8 @@ export interface VehiculeForm {
   carburant: string;
   transmission: string;
   description: string;
+  status: VehiculeStatus;
+  garantie: number; // Durée de garantie en mois
 }
 
 @Injectable({
@@ -56,5 +81,13 @@ export class VehiculeService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  search(query: string): Observable<Vehicule[]> {
+    return this.http.get<Vehicule[]>(`${this.apiUrl}/search?q=${query}`);
+  }
+
+  getByStatus(status: string): Observable<Vehicule[]> {
+    return this.http.get<Vehicule[]>(`${this.apiUrl}/status/${status}`);
   }
 }

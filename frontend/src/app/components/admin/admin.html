@@ -38,6 +38,22 @@
           <label>Transmission</label>
           <input type="text" [(ngModel)]="formData.transmission" name="transmission" required>
         </div>
+        <div>
+          <label>Statut</label>
+          <select [(ngModel)]="formData.status" name="status" required>
+            <option value="DISPONIBLE" selected>Disponible</option>
+            <option value="A_LOUER">À louer</option>
+            <option value="A_VENDRE">À vendre</option>
+            <option value="VENDU">Vendu</option>
+            <option value="LOUER">Loué</option>
+            <option value="IMPORTE">Importé</option>
+            <option value="EXPORTE">Exporté</option>
+          </select>
+        </div>
+        <div>
+          <label>Garantie (mois)</label>
+          <input type="number" [(ngModel)]="formData.garantie" name="garantie" min="1" max="36" required>
+        </div>
       </div>
       <button type="submit">{{ isEditing() ? 'Mettre à jour' : 'Ajouter' }}</button>
       @if (isEditing()) {

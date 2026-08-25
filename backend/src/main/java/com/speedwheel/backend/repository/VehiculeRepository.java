@@ -1,8 +1,12 @@
 package com.speedwheel.backend.repository;
 
 import com.speedwheel.backend.entity.Vehicule;
+import com.speedwheel.backend.entity.VehiculeStatus;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 public interface VehiculeRepository extends JpaRepository<Vehicule, Long> {
-    // Tu pourras ajouter des méthodes personnalisées ici plus tard (ex: findByMarque)
+    List<Vehicule> findByMarqueContainingIgnoreCaseOrModeleContainingIgnoreCase(String marque, String modele);
+    List<Vehicule> findByStatus(VehiculeStatus status);
 }

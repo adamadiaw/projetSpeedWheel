@@ -2,6 +2,7 @@ package com.speedwheel.backend.service;
 
 import com.speedwheel.backend.dto.VehiculeDTO;
 import com.speedwheel.backend.entity.Vehicule;
+import com.speedwheel.backend.entity.VehiculeStatus;
 import com.speedwheel.backend.repository.VehiculeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -38,6 +39,8 @@ public class VehiculeService {
         vehicule.setCarburant(dto.getCarburant());
         vehicule.setTransmission(dto.getTransmission());
         vehicule.setDescription(dto.getDescription());
+        vehicule.setGarantie(dto.getGarantie());
+        vehicule.setStatus(dto.getStatus());
         return vehiculeRepository.save(vehicule);
     }
 
@@ -52,7 +55,17 @@ public class VehiculeService {
         vehicule.setCarburant(dto.getCarburant());
         vehicule.setTransmission(dto.getTransmission());
         vehicule.setDescription(dto.getDescription());
+        vehicule.setGarantie(dto.getGarantie());
+        vehicule.setStatus(dto.getStatus()); 
         return vehiculeRepository.save(vehicule);
+    }
+
+    public List<Vehicule> search(String query) {
+        return vehiculeRepository.findByMarqueContainingIgnoreCaseOrModeleContainingIgnoreCase(query, query);
+    }
+
+    public List<Vehicule> getByStatus(VehiculeStatus status) {
+        return vehiculeRepository.findByStatus(status);
     }
 
     public void delete(Long id) {

@@ -45,8 +45,15 @@ public class Vehicule {
     @Column(length = 500)
     private String description;
 
+    @Column(nullable = false)
+    private Integer garantie; // Durée de garantie en mois (ex: 12, 24, 36)
+
     @Column(name = "date_ajout", nullable = false)
     private LocalDateTime dateAjout;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private VehiculeStatus status;
 
     @PrePersist
     public void prePersist() {

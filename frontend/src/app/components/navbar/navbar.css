@@ -2,60 +2,54 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 15px 30px;
   background-color: var(--card);
   border-bottom: 1px solid var(--border);
-  transition: background-color 0.3s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
 }
 
 .navbar-left {
   display: flex;
+  align-items: center;
   gap: 20px;
 }
 
 .logo {
-  font-weight: bold;
-  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
   text-decoration: none;
-  font-size: 18px;
+  color: var(--text);
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.logo-icon {
+  background-color: var(--primary);
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: white;
+  font-size: 14px;
 }
 
 .nav-link {
   color: var(--text);
   text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
 }
 
 .nav-link:hover {
   color: var(--primary);
 }
 
-.logout-btn {
-  padding: 8px 16px;
-  background-color: transparent;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.logout-btn:hover {
-  background-color: var(--primary);
-  color: white;
-}
-
-.theme-toggle {
-  background: transparent;
-  border: none;
-  color: var(--text);
-  cursor: pointer;
-  padding: 5px;
+.navbar-right {
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.theme-toggle:hover {
-  color: var(--primary);
+  gap: 12px;
 }
 
 .icon-btn {
@@ -63,22 +57,39 @@
   border: none;
   color: var(--text);
   cursor: pointer;
-  padding: 5px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .icon-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
   color: var(--primary);
 }
 
-.navbar-left {
-  display: flex;
-  gap: 20px;
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 15px;
+  }
+
+  .navbar-left {
+    gap: 10px;
+  }
+
+  .nav-link {
+    font-size: 12px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
 }
 
-.navbar-right {
-  display: flex;
-  gap: 10px;
+.nav-link.active {
+  color: var(--primary);
+  font-weight: bold;
 }

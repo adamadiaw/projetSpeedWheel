@@ -1,13 +1,18 @@
 <nav class="navbar">
   <div class="navbar-left">
-    <a routerLink="/" class="logo">SpeedWheel</a>
-    <a routerLink="/vehicules" class="nav-link">Véhicules</a>
-    <a routerLink="/sales" class="nav-link">Acheter</a>
-    <a routerLink="/admin" class="nav-link">Admin</a>
+    <a routerLink="/" class="logo">
+      <span class="logo-icon">SW</span>
+      <span class="logo-text">SpeedWheel</span>
+    </a>
+    <a routerLink="/achat" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Acheter</a>
+    <a routerLink="/rental" routerLinkActive="active" class="nav-link">Louer</a>
+    <a routerLink="/imported" routerLinkActive="active" class="nav-link">Import</a>
+    <a routerLink="/exported" routerLinkActive="active" class="nav-link">Export</a>
+    <a routerLink="/vente" routerLinkActive="active" class="nav-link">Vendre</a>
+    <a routerLink="/admin" routerLinkActive="active" class="nav-link">Administration</a>
   </div>
 
   <div class="navbar-right">
-    <!-- Bouton dark mode avec icône dynamique -->
     <button class="icon-btn" (click)="toggleTheme()" aria-label="Changer de thème">
       @if (!isDarkMode()) {
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -28,7 +33,6 @@
       }
     </button>
 
-    <!-- Bouton connexion/déconnexion avec icône -->
     <button class="icon-btn" (click)="handleAuth()" aria-label="Authentification">
       @if (isLoggedIn()) {
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

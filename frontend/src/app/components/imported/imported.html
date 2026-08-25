@@ -1,39 +1,12 @@
-<div class="home-container">
-  <h1>Bienvenue sur SpeedWheel</h1>
-  <p class="subtitle">Trouvez votre véhicule idéal</p>
-
-  <div class="search-bar">
-    <input
-      type="text"
-      [(ngModel)]="query"
-      placeholder="Marque, modèle, mots clés..."
-      (keyup.enter)="search()"
-    />
-    <button (click)="search()">Rechercher</button>
-  </div>
-</div>
-
 <div class="container">
+  <h2>Véhicules importés</h2>
+
   <div class="grid">
     @for (vehicule of vehicules(); track vehicule.id) {
       <div class="vehicle-card">
         <div class="card-header">
-        @if (vehicule.status === 'A_LOUER') {
-          <span class="badge badge-rent">À louer</span>
-        } @else if (vehicule.status === 'A_VENDRE') {
-          <span class="badge badge-sale">À vendre</span>
-        } @else if (vehicule.status === 'IMPORTE') {
           <span class="badge badge-import">Importé</span>
-        } @else if (vehicule.status === 'EXPORTE') {
-          <span class="badge badge-export">Exporté</span>
-        } @else if (vehicule.status === 'VENDU') {
-          <span class="badge badge-sold">Vendu</span>
-        } @else if (vehicule.status === 'LOUER') {
-          <span class="badge badge-rent">Loué</span>
-        } @else {
-          <span class="badge badge-new">Disponible</span>
-        }
-      </div>
+        </div>
         <div class="card-image">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="120" height="120" class="car-icon">
             <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path>
@@ -44,7 +17,7 @@
         </div>
         <div class="card-content">
           <h3>{{ vehicule.marque }} {{ vehicule.modele }}</h3>
-          <p class="price">{{ vehicule.prix.toLocaleString('fr-FR') }} €</p>
+          <p class="price">{{ vehicule.prix.toLocaleString('fr-FR') }} FCFA</p>
           <div class="specs">
             <span class="spec">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -83,7 +56,6 @@
             </svg>
             Garantie {{ vehicule.garantie }} mois
           </div>
-          <button (click)="onBuy(vehicule)">Acheter</button>
         </div>
       </div>
     }
