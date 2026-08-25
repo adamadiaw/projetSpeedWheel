@@ -1,0 +1,61 @@
+<div class="container">
+  <h2>Tableau de bord Admin</h2>
+
+  <!-- Formulaire d'ajout / modification -->
+  <div class="admin-form">
+    <h3>{{ isEditing() ? 'Modifier le véhicule' : 'Ajouter un véhicule' }}</h3>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <div>
+          <label>Marque</label>
+          <input type="text" [(ngModel)]="formData.marque" name="marque" required>
+        </div>
+        <div>
+          <label>Modèle</label>
+          <input type="text" [(ngModel)]="formData.modele" name="modele" required>
+        </div>
+        <div>
+          <label>Année</label>
+          <input type="number" [(ngModel)]="formData.annee" name="annee" required>
+        </div>
+        <div>
+          <label>Couleur</label>
+          <input type="text" [(ngModel)]="formData.couleur" name="couleur" required>
+        </div>
+        <div>
+          <label>Prix</label>
+          <input type="number" [(ngModel)]="formData.prix" name="prix" required>
+        </div>
+        <div>
+          <label>Kilométrage</label>
+          <input type="number" [(ngModel)]="formData.kilometrage" name="kilometrage" required>
+        </div>
+        <div>
+          <label>Carburant</label>
+          <input type="text" [(ngModel)]="formData.carburant" name="carburant" required>
+        </div>
+        <div>
+          <label>Transmission</label>
+          <input type="text" [(ngModel)]="formData.transmission" name="transmission" required>
+        </div>
+      </div>
+      <button type="submit">{{ isEditing() ? 'Mettre à jour' : 'Ajouter' }}</button>
+      @if (isEditing()) {
+        <button type="button" (click)="resetForm()">Annuler</button>
+      }
+    </form>
+  </div>
+
+  <!-- Liste des véhicules -->
+  <div class="grid">
+    @for (vehicule of vehicules(); track vehicule.id) {
+      <div class="card">
+        <h3>{{ vehicule.marque }} {{ vehicule.modele }}</h3>
+        <p>Année : {{ vehicule.annee }}</p>
+        <p>Prix : {{ vehicule.prix }} €</p>
+        <button (click)="onEdit(vehicule)">Modifier</button>
+        <button (click)="onDelete(vehicule.id)">Supprimer</button>
+      </div>
+    }
+  </div>
+</div>

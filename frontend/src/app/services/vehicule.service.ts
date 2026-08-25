@@ -17,24 +17,44 @@ export interface Vehicule {
   dateAjout: string;
 }
 
+// Type pour le formulaire (sans id ni dateAjout)
+export interface VehiculeForm {
+  marque: string;
+  modele: string;
+  annee: number;
+  couleur: string;
+  prix: number;
+  kilometrage: number;
+  carburant: string;
+  transmission: string;
+  description: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class VehiculeService {
-    
-    private apiUrl = environment.apiUrl.replace('/auth', '') + '/vehicules';
+  private apiUrl = environment.apiUrl.replace('/auth', '') + '/vehicules';
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    getAll(): Observable<Vehicule[]> {
-        return this.http.get<Vehicule[]>(this.apiUrl);
-    }
+  getAll(): Observable<Vehicule[]> {
+    return this.http.get<Vehicule[]>(this.apiUrl);
+  }
 
-    getById(id: number): Observable<Vehicule> {
-        return this.http.get<Vehicule>(`${this.apiUrl}/${id}`);
-    }
+  getById(id: number): Observable<Vehicule> {
+    return this.http.get<Vehicule>(`${this.apiUrl}/${id}`);
+  }
 
-    create(vehicule: Vehicule): Observable<Vehicule> {
-        return this.http.post<Vehicule>(this.apiUrl, vehicule);
-    }
+  create(vehicule: VehiculeForm): Observable<Vehicule> {
+    return this.http.post<Vehicule>(this.apiUrl, vehicule);
+  }
+
+  update(id: number, vehicule: VehiculeForm): Observable<Vehicule> {
+    return this.http.put<Vehicule>(`${this.apiUrl}/${id}`, vehicule);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
