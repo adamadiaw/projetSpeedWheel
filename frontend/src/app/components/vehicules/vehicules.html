@@ -1,0 +1,16 @@
+<div class="container">
+  <h2>Liste des véhicules</h2>
+
+  <div class="grid">
+    @for (vehicule of vehicules(); track vehicule.id) {
+      <div class="card">
+        <h3>{{ vehicule.marque }} {{ vehicule.modele }}</h3>
+        <p>Année : {{ vehicule.annee }}</p>
+        <p>Kilométrage : {{ vehicule.kilometrage }} km</p>
+        <p class="price">{{ vehicule.prix }} €</p>
+        <p>Carburant : {{ vehicule.carburant }}</p>
+        <p>Transmission : {{ vehicule.transmission }}</p>
+      </div>
+    }
+  </div>
+</div>

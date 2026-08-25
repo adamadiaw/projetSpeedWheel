@@ -1,0 +1,84 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: var(--card);
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.3s;
+}
+
+.navbar-left {
+  display: flex;
+  gap: 20px;
+}
+
+.logo {
+  font-weight: bold;
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.logout-btn {
+  padding: 8px 16px;
+  background-color: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  color: var(--primary);
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  color: var(--primary);
+}
+
+.navbar-left {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 10px;
+}

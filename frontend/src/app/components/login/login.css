@@ -2,14 +2,16 @@
   max-width: 400px;
   margin: 50px auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  background-color: var(--card);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: #f9f9f9;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .login-container h2 {
   text-align: center;
   margin-bottom: 20px;
+  color: var(--text);
 }
 
 .login-container div {
@@ -19,18 +21,23 @@
 .login-container label {
   display: block;
   margin-bottom: 5px;
+  color: var(--text);
 }
 
 .login-container input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
+  background-color: var(--background);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
 }
 
 .login-container button {
   width: 100%;
   padding: 10px;
-  background: #007bff;
+  background: var(--primary);
   color: white;
   border: none;
   border-radius: 4px;
@@ -38,17 +45,11 @@
 }
 
 .login-container button:hover {
-  background: #0056b3;
+  opacity: 0.9;
 }
 
 .error {
-  color: red;
-  font-size: 0.9em;
-  margin-top: 4px;
-}
-
-.error-message {
-  color: red;
+  color: var(--error);
   text-align: center;
   margin-top: 10px;
 }

@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "sales")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +27,11 @@ public class Order {
     private Vehicule vehicule;
 
     @Column(nullable = false)
-    private LocalDateTime orderDate = LocalDateTime.now();
+    private BigDecimal price;
 
     @Column(nullable = false)
-    private String status; // "PENDING", "CONFIRMED", "SHIPPED", "DELIVERED"
+    private LocalDateTime saleDate = LocalDateTime.now();
+
+    @Column(nullable = false)
+    private String status; // "PAID", "PENDING", "DELIVERED"
 }
