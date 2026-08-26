@@ -1,0 +1,52 @@
+.details-container {
+  padding: 20px;
+}
+
+.details-card {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.details-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  background-color: var(--background);
+  border-radius: 12px;
+}
+
+.details-info {
+  flex: 1;
+}
+
+.details-info p {
+  margin-bottom: 10px;
+}
+
+.actions {
+  margin-top: 20px;
+}
+
+.actions button {
+  background-color: var(--primary);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .details-card {
+    flex-direction: column;
+  }
+
+  .details-image {
+    width: 100%;
+  }
+}

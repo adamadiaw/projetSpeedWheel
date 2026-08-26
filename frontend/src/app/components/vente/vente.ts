@@ -2,6 +2,8 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { VehiculeService, VehiculeForm } from '../../services/vehicule.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vente',
@@ -24,11 +26,26 @@ export class Vente {
     status: 'A_VENDRE',
     garantie: 12
   };
+  isLoggedIn = signal(false);
 
-  constructor(private vehiculeService: VehiculeService) {}
+  constructor(
+    private vehiculeService: VehiculeService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.isLoggedIn.set(!!this.authService.getToken());
+  }
 
   onSubmit(): void {
-    this.vehiculeService.create(this.formData).subscribe({
+    if (!this.isLoggedIn()) {
+      alert('Vous devez être connecté pour vendre un véhicule.');
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.vehiculeService.sell(this.formData).subscribe({
       next: () => {
         alert('Votre véhicule a été soumis à la vente !');
         this.resetForm();

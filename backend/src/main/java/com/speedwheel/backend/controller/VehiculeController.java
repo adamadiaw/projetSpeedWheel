@@ -58,4 +58,24 @@ public class VehiculeController {
     public List<Vehicule> search(@RequestParam String q) {
         return vehiculeService.search(q);
     }
+
+    @PostMapping("/sell")
+    public Vehicule sellVehicule(@Valid @RequestBody VehiculeDTO dto) {
+        return vehiculeService.sellVehicule(dto);
+    }
+
+    @GetMapping("/paginated")
+    public org.springframework.data.domain.Page<Vehicule> getPaginated(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size) {
+    return vehiculeService.getPaginated(page, size);
+    }
+
+    @GetMapping("/status/{status}/paginated")
+    public org.springframework.data.domain.Page<Vehicule> getByStatusPaginated(
+            @PathVariable VehiculeStatus status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size) {
+        return vehiculeService.getByStatusPaginated(status, page, size);
+    }
 }

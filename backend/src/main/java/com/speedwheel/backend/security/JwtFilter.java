@@ -27,7 +27,15 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = request.getRequestURI();
+
+        // Ignorer les routes d'authentification
         if (path.startsWith("/api/auth/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // Ignorer les GET publiques sur les véhicules et les ventes
+        if (request.getMethod().equals("GET") && (path.startsWith("/api/vehicules/") || path.startsWith("/api/sales/"))) {
             filterChain.doFilter(request, response);
             return;
         }

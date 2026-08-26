@@ -11,6 +11,9 @@ import { VehiculeService, Vehicule } from '../../services/vehicule.service';
 })
 export class Rental {
   vehicules = signal<Vehicule[]>([]);
+  page = 1;
+  totalPages = 1;
+  size = 8;
 
   constructor(private vehiculeService: VehiculeService) {}
 
@@ -19,13 +22,28 @@ export class Rental {
   }
 
   loadVehicules(): void {
-    this.vehiculeService.getByStatus('A_LOUER').subscribe({
-      next: (data) => {
-        this.vehicules.set(data);
+    this.vehiculeService.getByStatusPaginated('A_LOUER', this.page - 1, this.size).subscribe({
+      next: (response) => {
+        this.vehicules.set(response.content);
+        this.totalPages = response.totalPages;
       },
       error: (err) => {
-        console.error('Erreur lors de la récupération des véhicules à louer:', err);
+        console.error('Erreur lors de la récupération :', err);
       }
     });
+  }
+
+  nextPage(): void {
+    if (this.page < this.totalPages) {
+      this.page++;
+      this.loadVehicules();
+    }
+  }
+
+  prevPage(): void {
+    if (this.page > 1) {
+      this.page--;
+      this.loadVehicules();
+    }
   }
 }

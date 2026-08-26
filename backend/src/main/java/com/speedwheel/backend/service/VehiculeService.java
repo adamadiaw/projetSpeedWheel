@@ -68,6 +68,32 @@ public class VehiculeService {
         return vehiculeRepository.findByStatus(status);
     }
 
+    public org.springframework.data.domain.Page<Vehicule> getPaginated(int page, int size) {
+        return vehiculeRepository.findAll(
+            org.springframework.data.domain.PageRequest.of(page, size)
+        );
+    }
+
+    public Vehicule sellVehicule(@Valid VehiculeDTO dto) {
+        Vehicule vehicule = new Vehicule();
+        vehicule.setMarque(dto.getMarque());
+        vehicule.setModele(dto.getModele());
+        vehicule.setAnnee(dto.getAnnee());
+        vehicule.setCouleur(dto.getCouleur());
+        vehicule.setPrix(dto.getPrix());
+        vehicule.setKilometrage(dto.getKilometrage());
+        vehicule.setCarburant(dto.getCarburant());
+        vehicule.setTransmission(dto.getTransmission());
+        vehicule.setDescription(dto.getDescription());
+        vehicule.setGarantie(dto.getGarantie());
+        vehicule.setStatus(dto.getStatus());
+        return vehiculeRepository.save(vehicule);
+    }
+
+    public org.springframework.data.domain.Page<Vehicule> getByStatusPaginated(VehiculeStatus status, int page, int size) {
+        return vehiculeRepository.findByStatus(status, org.springframework.data.domain.PageRequest.of(page, size));
+    }
+
     public void delete(Long id) {
         vehiculeRepository.deleteById(id);
     }

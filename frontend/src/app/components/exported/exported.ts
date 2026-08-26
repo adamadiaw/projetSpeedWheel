@@ -1,16 +1,24 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { VehiculeService, Vehicule } from '../../services/vehicule.service';
 
 @Component({
   selector: 'app-exported',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './exported.html',
   styleUrl: './exported.css'
 })
 export class Exported {
   vehicules = signal<Vehicule[]>([]);
+  isModalOpen = signal(false);
+  requestData = {
+    marque: '',
+    modele: '',
+    annee: null,
+    budget: null
+  };
 
   constructor(private vehiculeService: VehiculeService) {}
 
@@ -18,14 +26,63 @@ export class Exported {
     this.loadVehicules();
   }
 
+  page = 1;
+  totalPages = 1;
+  size = 8;
+
   loadVehicules(): void {
-    this.vehiculeService.getByStatus('EXPORTE').subscribe({
-      next: (data) => {
-        this.vehicules.set(data);
+    this.vehiculeService.getByStatusPaginated('EXPORTE', this.page - 1, this.size).subscribe({
+      next: (response) => {
+        this.vehicules.set(response.content);
+        this.totalPages = response.totalPages;
       },
       error: (err) => {
-        console.error('Erreur lors de la récupération des véhicules exportés:', err);
+        console.error('Erreur lors de la récupération :', err);
       }
     });
+  }
+
+  nextPage(): void {
+    if (this.page < this.totalPages) {
+      this.page++;
+      this.loadVehicules();
+    }
+  }
+
+  prevPage(): void {
+    if (this.page > 1) {
+      this.page--;
+      this.loadVehicules();
+    }
+  }
+
+  openModal(): void {
+    this.isModalOpen.set(true);
+  }
+
+  closeModal(): void {
+    this.isModalOpen.set(false);
+  }
+
+  onRequest(): void {
+    this.vehiculeService.exportRequest(this.requestData).subscribe({
+      next: () => {
+        alert('Requête envoyée aux exportateurs !');
+        this.closeModal();
+        this.resetRequest();
+      },
+      error: (err) => {
+        console.error('Erreur lors de la requête :', err);
+      }
+    });
+  }
+
+  resetRequest(): void {
+    this.requestData = {
+      marque: '',
+      modele: '',
+      annee: null,
+      budget: null
+    };
   }
 }

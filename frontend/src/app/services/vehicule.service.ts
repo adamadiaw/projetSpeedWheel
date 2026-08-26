@@ -90,4 +90,24 @@ export class VehiculeService {
   getByStatus(status: string): Observable<Vehicule[]> {
     return this.http.get<Vehicule[]>(`${this.apiUrl}/status/${status}`);
   }
+
+  getAllPaginated(page: number, size: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/paginated?page=${page}&size=${size}`);
+  }
+
+  importRequest(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/import-request`, data);
+  }
+
+  exportRequest(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/export-request`, data);
+  }
+
+  sell(data: VehiculeForm): Observable<Vehicule> {
+    return this.http.post<Vehicule>(`${this.apiUrl}/sell`, data);
+  }
+
+  getByStatusPaginated(status: string, page: number, size: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/status/${status}/paginated?page=${page}&size=${size}`);
+  }
 }

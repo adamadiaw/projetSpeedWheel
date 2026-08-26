@@ -1,6 +1,17 @@
 <div class="container">
   <h2>Véhicules exportés</h2>
 
+  <div class="admin-header">
+    <h3>Liste des véhicules exportés</h3>
+    <button class="add-button" (click)="openModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Requête Export
+    </button>
+  </div>
+
   <div class="grid">
     @for (vehicule of vehicules(); track vehicule.id) {
       <div class="vehicle-card">
@@ -17,7 +28,7 @@
         </div>
         <div class="card-content">
           <h3>{{ vehicule.marque }} {{ vehicule.modele }}</h3>
-          <p class="price">{{ vehicule.prix.toLocaleString('fr-FR') }} FCFA</p>
+          <p class="price">{{ vehicule.prix.toLocaleString('fr-FR') }} €</p>
           <div class="specs">
             <span class="spec">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -60,4 +71,40 @@
       </div>
     }
   </div>
+
+<div class="pagination">
+  <button (click)="prevPage()" [disabled]="page === 1">Précédent</button>
+  <span>Page {{ page }} / {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="page === totalPages">Suivant</button>
+</div>
+
+  @if (isModalOpen()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <h3>Requête aux exportateurs</h3>
+        <form (ngSubmit)="onRequest()">
+          <div>
+            <label>Marque</label>
+            <input type="text" [(ngModel)]="requestData.marque" name="marque">
+          </div>
+          <div>
+            <label>Modèle</label>
+            <input type="text" [(ngModel)]="requestData.modele" name="modele">
+          </div>
+          <div>
+            <label>Année</label>
+            <input type="number" [(ngModel)]="requestData.annee" name="annee">
+          </div>
+          <div>
+            <label>Budget (€)</label>
+            <input type="number" [(ngModel)]="requestData.budget" name="budget">
+          </div>
+          <div class="form-actions">
+            <button type="submit">Envoyer</button>
+            <button type="button" (click)="closeModal()">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
 </div>

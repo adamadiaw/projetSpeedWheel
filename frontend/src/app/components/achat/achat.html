@@ -5,7 +5,7 @@
     @for (vehicule of vehicules(); track vehicule.id) {
       <div class="vehicle-card">
         <div class="card-header">
-          <span class="badge badge-new">À vendre</span>
+          <span class="badge badge-sale">À vendre</span>
         </div>
         <div class="card-image">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="120" height="120" class="car-icon">
@@ -17,7 +17,7 @@
         </div>
         <div class="card-content">
           <h3>{{ vehicule.marque }} {{ vehicule.modele }}</h3>
-          <p class="price">{{ vehicule.prix.toLocaleString('fr-FR') }} FCFA</p>
+          <p class="price">{{ vehicule.prix.toLocaleString('fr-FR') }} €</p>
           <div class="specs">
             <span class="spec">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -56,9 +56,14 @@
             </svg>
             Garantie {{ vehicule.garantie }} mois
           </div>
-          <button (click)="onBuy(vehicule)">Acheter</button>
+          <a routerLink="/vehicule/{{ vehicule.id }}" class="view-more">Voir plus...>></a>
         </div>
       </div>
     }
   </div>
+</div>
+<div class="pagination">
+    <button (click)="prevPage()" [disabled]="page === 1">Précédent</button>
+    <span>Page {{ page }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page === totalPages">Suivant</button>
 </div>

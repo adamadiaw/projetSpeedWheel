@@ -8,6 +8,7 @@ import { Achat } from './components/achat/achat';
 import { Vente } from './components/vente/vente';
 import { Imported } from './components/imported/imported';
 import { Exported } from './components/exported/exported';
+import { VehiculeDetails } from './components/vehicule-details/vehicule-details';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -19,5 +20,6 @@ export const routes: Routes = [
   { path: 'vente', component: Vente },
   { path: 'imported', component: Imported },
   { path: 'exported', component: Exported },
+  { path: 'vehicule/:id', component: VehiculeDetails },
 
 ];
