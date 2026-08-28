@@ -18,10 +18,15 @@ public class OrderService {
 
     private final VehiculeRepository vehiculeRepository;
 
-    OrderService(SaleRepository orderRepository, VehiculeRepository vehiculeRepository, UserRepository userRepository) {
+    private final NotificationService notificationService;
+
+
+    OrderService(SaleRepository orderRepository, VehiculeRepository vehiculeRepository, UserRepository userRepository,NotificationService notificationService) {
         this.orderRepository = orderRepository;
         this.vehiculeRepository = vehiculeRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
+
     }
 
     public Sale createOrder(Long userId, Long vehiculeId) {
@@ -34,7 +39,12 @@ public class OrderService {
         order.setUser(user);
         order.setVehicule(vehicule);
         order.setStatus("PENDING");
-        return orderRepository.save(order);
+        Sale savedOrder = orderRepository.save(order);
+
+        // Envoyer une notification WebSocket
+        notificationService.sendNotification("Un véhicule a été acheté !");
+
+        return savedOrder;
     }
 
     public List<Sale> getOrdersByUserId(Long userId) {

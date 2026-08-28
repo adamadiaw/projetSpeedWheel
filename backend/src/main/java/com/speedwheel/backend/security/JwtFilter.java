@@ -28,13 +28,25 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
+        // Ignorer les routes de notifications
+        if (path.startsWith("/api/notifications/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // Ignorer les routes WebSocket
+        if (path.startsWith("/ws")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         // Ignorer les routes d'authentification
         if (path.startsWith("/api/auth/")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Ignorer les GET publiques sur les véhicules et les ventes
+        // Ignorer les GET publics
         if (request.getMethod().equals("GET") && (path.startsWith("/api/vehicules/") || path.startsWith("/api/sales/"))) {
             filterChain.doFilter(request, response);
             return;

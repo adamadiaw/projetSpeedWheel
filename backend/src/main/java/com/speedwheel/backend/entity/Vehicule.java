@@ -59,4 +59,8 @@ public class Vehicule {
     public void prePersist() {
         this.dateAjout = LocalDateTime.now();
     }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

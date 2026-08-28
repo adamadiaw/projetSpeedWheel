@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { VehiculeService, VehiculeForm } from '../../services/vehicule.service';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -31,6 +32,7 @@ export class Vente {
   constructor(
     private vehiculeService: VehiculeService,
     private authService: AuthService,
+    private notificationService: NotificationService,
     private router: Router
   ) {}
 
@@ -40,18 +42,18 @@ export class Vente {
 
   onSubmit(): void {
     if (!this.isLoggedIn()) {
-      alert('Vous devez être connecté pour vendre un véhicule.');
+      this.notificationService.show('Vous devez être connecté pour vendre un véhicule.', 'error');
       this.router.navigate(['/login']);
       return;
     }
 
     this.vehiculeService.sell(this.formData).subscribe({
       next: () => {
-        alert('Votre véhicule a été soumis à la vente !');
+        // this.notificationService.show('Votre véhicule a été soumis à la vente !', 'success');
         this.resetForm();
       },
       error: (err) => {
-        console.error('Erreur lors de la soumission :', err);
+        this.notificationService.show('Erreur lors de la soumission', 'error');
       }
     });
   }
