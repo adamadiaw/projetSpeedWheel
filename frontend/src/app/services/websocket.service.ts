@@ -10,49 +10,64 @@ import { environment } from '../../environments/environment';
 export class WebSocketService {
   private stompClient: Client | null = null;
   private notifications = new Subject<string>();
+  private connectionStatus = new Subject<boolean>();
 
   constructor() {}
 
   connect(): void {
-    // Évite de recréer un client si un autre est déjà actif
     if (this.stompClient && this.stompClient.active) {
+      console.log('WebSocket déjà connecté');
       return;
     }
 
+    console.log('Tentative de connexion WebSocket...');
+    
     const client = new Client({
       webSocketFactory: () => new SockJS(environment.wsUrl),
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000
+      heartbeatOutgoing: 4000,
+      debug: (str) => console.log('STOMP debug:', str)
     });
 
     client.onConnect = (frame) => {
-      console.log('WebSocket connecté !');
+      console.log('✅ WebSocket connecté !');
+      this.connectionStatus.next(true);
       
-      // ⚠️ IMPORTANT : on utilise `message.body` qui est le texte brut
       client.subscribe('/topic/notifications', (message) => {
-        this.notifications.next(message.body); // message.body est une String
+        console.log('📩 Notification reçue:', message.body);
+        this.notifications.next(message.body);
       });
     };
 
     client.onWebSocketClose = () => {
-      console.log('WebSocket déconnecté');
+      console.log('❌ WebSocket déconnecté');
+      this.connectionStatus.next(false);
     };
 
     client.onWebSocketError = (error) => {
-      console.error('Erreur technique WebSocket :', error);
+      console.error('⚠️ Erreur WebSocket:', error);
     };
 
     client.onStompError = (frame) => {
-      console.error('Erreur STOMP de niveau courtier :', frame.headers['message']);
+      console.error('⚠️ Erreur STOMP:', frame.headers['message']);
     };
 
     this.stompClient = client;
-    this.stompClient.activate();
+    
+    try {
+      this.stompClient.activate();
+    } catch (error) {
+      console.error('Erreur activation STOMP:', error);
+    }
   }
 
   getNotifications(): Observable<string> {
     return this.notifications.asObservable();
+  }
+
+  getConnectionStatus(): Observable<boolean> {
+    return this.connectionStatus.asObservable();
   }
 
   disconnect(): void {

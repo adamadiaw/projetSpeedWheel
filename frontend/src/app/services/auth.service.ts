@@ -11,6 +11,7 @@ export interface User {
   email: string;
   password: string;
   name?: string;
+  fullName?: string;
 }
 
 @Injectable({
@@ -45,5 +46,9 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
   }
 }

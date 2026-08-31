@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -16,7 +16,7 @@ export interface Vehicule {
   description: string;
   dateAjout: string;
   status: VehiculeStatus;
-  garantie: number; // Durée de garantie en mois
+  garantie: number;
 }
 
 export type VehiculeStatus =
@@ -40,7 +40,6 @@ export const VEHICULE_STATUS_LABELS: Record<VehiculeStatus, string> = {
   DISPONIBLE: 'Disponible'
 };
 
-// Type pour le formulaire (sans id ni dateAjout)
 export interface VehiculeForm {
   marque: string;
   modele: string;
@@ -52,16 +51,22 @@ export interface VehiculeForm {
   transmission: string;
   description: string;
   status: VehiculeStatus;
-  garantie: number; // Durée de garantie en mois
+  garantie: number;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehiculeService {
-  private apiUrl = environment.apiUrl.replace('/auth', '') + '/vehicules';
+  private apiUrl = environment.vehiculesUrl;  // URL corrigée
+  private rentalUrl = environment.rentalsUrl;  // URL corrigée
 
   constructor(private http: HttpClient) {}
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : new HttpHeaders();
+  }
 
   getAll(): Observable<Vehicule[]> {
     return this.http.get<Vehicule[]>(this.apiUrl);
@@ -72,15 +77,15 @@ export class VehiculeService {
   }
 
   create(vehicule: VehiculeForm): Observable<Vehicule> {
-    return this.http.post<Vehicule>(this.apiUrl, vehicule);
+    return this.http.post<Vehicule>(this.apiUrl, vehicule, { headers: this.getAuthHeaders() });
   }
 
   update(id: number, vehicule: VehiculeForm): Observable<Vehicule> {
-    return this.http.put<Vehicule>(`${this.apiUrl}/${id}`, vehicule);
+    return this.http.put<Vehicule>(`${this.apiUrl}/${id}`, vehicule, { headers: this.getAuthHeaders() });
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
 
   search(query: string): Observable<Vehicule[]> {
@@ -96,15 +101,28 @@ export class VehiculeService {
   }
 
   importRequest(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/import-request`, data);
+    return this.http.post<any>(`${this.apiUrl}/import-request`, data, { headers: this.getAuthHeaders() });
   }
 
   exportRequest(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/export-request`, data);
+    return this.http.post<any>(`${this.apiUrl}/export-request`, data, { headers: this.getAuthHeaders() });
   }
 
   sell(data: VehiculeForm): Observable<Vehicule> {
-    return this.http.post<Vehicule>(`${this.apiUrl}/sell`, data);
+    return this.http.post<Vehicule>(`${this.apiUrl}/sell`, data, { headers: this.getAuthHeaders() });
+  }
+
+  createRental(vehiculeId: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/rent/${vehiculeId}`, {}, { headers: this.getAuthHeaders() });
+  }
+
+  rent(vehiculeId: number, returnDate: string): Observable<any> {
+    // Utilisation de rentalUrl au lieu de apiUrl
+    return this.http.post<any>(
+      `${this.rentalUrl}?vehiculeId=${vehiculeId}&returnDate=${returnDate}`, 
+      {}, 
+      { headers: this.getAuthHeaders() }
+    );
   }
 
   getByStatusPaginated(status: string, page: number, size: number): Observable<any> {

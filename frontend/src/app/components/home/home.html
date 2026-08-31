@@ -88,9 +88,11 @@
       </div>
     }
   </div>
-</div>
-<div class="pagination">
-    <button (click)="prevPage()" [disabled]="page === 1">Précédent</button>
-    <span>Page {{ page }} / {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="page === totalPages">Suivant</button>
+
+  <div class="pagination">
+      <button (click)="prevPage()" [disabled]="page === 1">Précédent</button>
+      <span>Page {{ page }} / {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="page === totalPages">Suivant</button>
+  </div>
+
 </div>

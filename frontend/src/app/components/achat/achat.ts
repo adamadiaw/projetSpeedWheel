@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { VehiculeService, Vehicule } from '../../services/vehicule.service';
 import { SaleService } from '../../services/sale.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-achat',
@@ -19,7 +20,8 @@ export class Achat {
 
   constructor(
     private vehiculeService: VehiculeService,
-    private saleService: SaleService
+    private saleService: SaleService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -29,11 +31,33 @@ export class Achat {
   loadVehicules(): void {
     this.vehiculeService.getByStatusPaginated('A_VENDRE', this.page - 1, this.size).subscribe({
       next: (response) => {
-        this.vehicules.set(response.content);
-        this.totalPages = response.totalPages;
+        console.log('Pagination Achat:', response);
+        
+        // Vérification de la structure de la réponse
+        if (response && response.content) {
+          this.vehicules.set(response.content);
+          this.totalPages = response.totalPages || 1;
+          this.page = (response.number || 0) + 1;
+        } else {
+          console.error('Structure de réponse inattendue:', response);
+        }
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des véhicules :', err);
+        this.notificationService.show('Erreur de chargement', 'error');
+      }
+    });
+  }
+
+  onBuy(vehicule: Vehicule): void {
+    this.saleService.createSale(vehicule.id).subscribe({
+      next: () => {
+        this.notificationService.show(`Véhicule ${vehicule.marque} ${vehicule.modele} acheté !`, 'success');
+        this.loadVehicules();
+      },
+      error: (err) => {
+        console.error('Erreur lors de l\'achat :', err);
+        this.notificationService.show('Erreur lors de l\'achat', 'error');
       }
     });
   }

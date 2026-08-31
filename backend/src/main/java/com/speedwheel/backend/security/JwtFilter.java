@@ -27,6 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = request.getRequestURI();
+        String method = request.getMethod();
 
         // Ignorer les routes de notifications
         if (path.startsWith("/api/notifications/")) {
@@ -47,7 +48,11 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         // Ignorer les GET publics
-        if (request.getMethod().equals("GET") && (path.startsWith("/api/vehicules/") || path.startsWith("/api/sales/"))) {
+        if (method.equals("GET") && (
+            path.startsWith("/api/vehicules/") || 
+            path.startsWith("/api/sales/") || 
+            path.startsWith("/api/rentals/")
+        )) {
             filterChain.doFilter(request, response);
             return;
         }

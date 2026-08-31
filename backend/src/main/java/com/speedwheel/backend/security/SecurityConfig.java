@@ -35,6 +35,9 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/vehicules/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/sales/**").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/rentals/**").permitAll()
+                // AJOUT : Autoriser POST sur /api/rentals avec authentification
+                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/rentals/**").authenticated()
                 .requestMatchers("/ws/**").permitAll()
                 .requestMatchers("/api/notifications/**").permitAll()
                 .anyRequest().authenticated()

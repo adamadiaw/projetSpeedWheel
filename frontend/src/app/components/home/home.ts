@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { VehiculeService, Vehicule } from '../../services/vehicule.service';
-import { SaleService } from '../../services/sale.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +21,7 @@ export class Home {
 
   constructor(
     private vehiculeService: VehiculeService,
-    private saleService: SaleService
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -31,11 +31,19 @@ export class Home {
   loadVehicules(): void {
     this.vehiculeService.getAllPaginated(this.page - 1, this.size).subscribe({
       next: (response) => {
-        this.vehicules.set(response.content);
-        this.totalPages = response.totalPages;
+        console.log('Home - Réponse pagination:', response);
+        
+        if (response && response.content) {
+          this.vehicules.set(response.content);
+          this.totalPages = response.totalPages || 1;
+          this.page = (response.number || 0) + 1;
+        } else {
+          console.error('Structure de réponse inattendue:', response);
+        }
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des véhicules :', err);
+        this.notificationService.show('Erreur de chargement', 'error');
       }
     });
   }
@@ -45,6 +53,7 @@ export class Home {
     this.vehiculeService.search(this.query).subscribe({
       next: (data) => {
         this.vehicules.set(data);
+        this.totalPages = 1;
       },
       error: (err) => {
         console.error('Erreur lors de la recherche :', err);

@@ -14,9 +14,11 @@ import java.util.List;
 public class VehiculeService {
 
     private final VehiculeRepository vehiculeRepository;
+    private final NotificationService notificationService;
 
-    VehiculeService(VehiculeRepository vehiculeRepository) {
+    VehiculeService(VehiculeRepository vehiculeRepository, NotificationService notificationService) {
         this.vehiculeRepository = vehiculeRepository;
+        this.notificationService = notificationService;
     }
 
     public List<Vehicule> getAll() {
@@ -56,7 +58,7 @@ public class VehiculeService {
         vehicule.setTransmission(dto.getTransmission());
         vehicule.setDescription(dto.getDescription());
         vehicule.setGarantie(dto.getGarantie());
-        vehicule.setStatus(dto.getStatus()); 
+        vehicule.setStatus(dto.getStatus());
         return vehiculeRepository.save(vehicule);
     }
 
@@ -87,11 +89,25 @@ public class VehiculeService {
         vehicule.setDescription(dto.getDescription());
         vehicule.setGarantie(dto.getGarantie());
         vehicule.setStatus(dto.getStatus());
+        
+        // Notification de vente
+        notificationService.sendNotification("Un véhicule a été mis en vente : " + dto.getMarque() + " " + dto.getModele());
+        
         return vehiculeRepository.save(vehicule);
     }
 
     public org.springframework.data.domain.Page<Vehicule> getByStatusPaginated(VehiculeStatus status, int page, int size) {
         return vehiculeRepository.findByStatus(status, org.springframework.data.domain.PageRequest.of(page, size));
+    }
+
+    public Vehicule rentVehicule(Long id) {
+        Vehicule vehicule = getById(id);
+        vehicule.setStatus(VehiculeStatus.LOUER);
+        Vehicule savedVehicule = vehiculeRepository.save(vehicule);
+        
+        notificationService.sendNotification("Un véhicule a été loué !");
+        
+        return savedVehicule;
     }
 
     public void delete(Long id) {

@@ -48,11 +48,12 @@ export class Vente {
     }
 
     this.vehiculeService.sell(this.formData).subscribe({
-      next: () => {
-        // this.notificationService.show('Votre véhicule a été soumis à la vente !', 'success');
+      next: (response) => {
+        this.notificationService.show('Véhicule mis en vente avec succès !', 'success');
         this.resetForm();
       },
       error: (err) => {
+        console.error('Erreur vente:', err);
         this.notificationService.show('Erreur lors de la soumission', 'error');
       }
     });
