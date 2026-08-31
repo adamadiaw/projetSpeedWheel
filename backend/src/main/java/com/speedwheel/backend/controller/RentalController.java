@@ -24,13 +24,8 @@ public class RentalController {
 
     @PostMapping
     public Rental rentVehicle(@RequestParam Long vehiculeId, @RequestParam String returnDate) {
-        try {
-            LocalDateTime returnDateTime = LocalDateTime.parse(returnDate);
-            return rentalService.rentVehicle(vehiculeId, returnDateTime);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erreur lors de la location: " + e.getMessage());
-        }
+        LocalDateTime returnDateTime = LocalDateTime.parse(returnDate);
+        return rentalService.rentVehicle(vehiculeId, returnDateTime);
     }
 
     @GetMapping

@@ -9,6 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -71,16 +74,26 @@ public class VehiculeController {
     @GetMapping("/paginated")
     public Page<Vehicule> getPaginated(
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "8") int size) {
-        return vehiculeService.getPaginated(page, size);
+        @RequestParam(defaultValue = "8") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir) {
+        
+        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return vehiculeService.getPaginated(pageable);
     }
 
     @GetMapping("/status/{status}/paginated")
     public Page<Vehicule> getByStatusPaginated(
             @PathVariable VehiculeStatus status,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size) {
-        return vehiculeService.getByStatusPaginated(status, page, size);
+            @RequestParam(defaultValue = "8") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
+        
+        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return vehiculeService.getByStatusPaginated(status, pageable);
     }
 
     @PostMapping("/rent/{id}")

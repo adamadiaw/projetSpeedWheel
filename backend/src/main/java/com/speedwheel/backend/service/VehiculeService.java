@@ -7,6 +7,9 @@ import com.speedwheel.backend.repository.VehiculeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 @Service
@@ -70,10 +73,8 @@ public class VehiculeService {
         return vehiculeRepository.findByStatus(status);
     }
 
-    public org.springframework.data.domain.Page<Vehicule> getPaginated(int page, int size) {
-        return vehiculeRepository.findAll(
-            org.springframework.data.domain.PageRequest.of(page, size)
-        );
+    public Page<Vehicule> getPaginated(Pageable pageable) {
+        return vehiculeRepository.findAll(pageable);
     }
 
     public Vehicule sellVehicule(@Valid VehiculeDTO dto) {
@@ -90,14 +91,13 @@ public class VehiculeService {
         vehicule.setGarantie(dto.getGarantie());
         vehicule.setStatus(dto.getStatus());
         
-        // Notification de vente
         notificationService.sendNotification("Un véhicule a été mis en vente : " + dto.getMarque() + " " + dto.getModele());
         
         return vehiculeRepository.save(vehicule);
     }
 
-    public org.springframework.data.domain.Page<Vehicule> getByStatusPaginated(VehiculeStatus status, int page, int size) {
-        return vehiculeRepository.findByStatus(status, org.springframework.data.domain.PageRequest.of(page, size));
+    public Page<Vehicule> getByStatusPaginated(VehiculeStatus status, Pageable pageable) {
+        return vehiculeRepository.findByStatus(status, pageable);
     }
 
     public Vehicule rentVehicule(Long id) {

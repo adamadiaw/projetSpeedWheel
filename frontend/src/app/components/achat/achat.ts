@@ -33,11 +33,11 @@ export class Achat {
       next: (response) => {
         console.log('Pagination Achat:', response);
         
-        // Vérification de la structure de la réponse
         if (response && response.content) {
           this.vehicules.set(response.content);
-          this.totalPages = response.totalPages || 1;
-          this.page = (response.number || 0) + 1;
+          // CORRECTION : Utiliser response.page.totalPages et response.page.number
+          this.totalPages = response.page?.totalPages || 1;
+          this.page = (response.page?.number || 0) + 1;
         } else {
           console.error('Structure de réponse inattendue:', response);
         }
