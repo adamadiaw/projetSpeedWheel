@@ -4,11 +4,11 @@
 // };
 
 export const environment = {
-  apiUrl: 'http://backend:8080/api/auth',  // URL pour l'authentification
-  vehiculesUrl: 'http://backend:8080/api/vehicules',  // URL pour les véhicules
-  rentalsUrl: 'http://backend:8080/api/rentals',  // URL pour les locations
-  salesUrl: 'http://backend:8080/api/sales',  // URL pour les ventes
-  wsUrl: 'http://backend:8080/ws'  // URL WebSocket
+  apiUrl: 'http://backend:8081/api/auth',  // URL pour l'authentification
+  vehiculesUrl: 'http://backend:8081/api/vehicules',  // URL pour les véhicules
+  rentalsUrl: 'http://backend:8081/api/rentals',  // URL pour les locations
+  salesUrl: 'http://backend:8081/api/sales',  // URL pour les ventes
+  wsUrl: 'http://backend:8081/ws'  // URL WebSocket
 };
 
 // export const environment = {
