@@ -2,7 +2,7 @@
 FROM docker.io/node:20-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm install --legacy-peer-deps
 COPY . .
 COPY src/environments/environments.prod.ts ./src/environments/environments.ts
 RUN npm run build --prod
