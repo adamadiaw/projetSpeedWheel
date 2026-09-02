@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
 
@@ -18,14 +19,48 @@ public class VehiculeService {
 
     private final VehiculeRepository vehiculeRepository;
     private final NotificationService notificationService;
+    private final VehiculeCacheService cacheService;
 
-    VehiculeService(VehiculeRepository vehiculeRepository, NotificationService notificationService) {
+    VehiculeService(VehiculeRepository vehiculeRepository, VehiculeCacheService cacheService, NotificationService notificationService) {
         this.vehiculeRepository = vehiculeRepository;
         this.notificationService = notificationService;
+        this.cacheService = cacheService;
     }
 
     public List<Vehicule> getAll() {
-        return vehiculeRepository.findAll();
+        String cacheKey = "vehicules:all";
+        
+        // 1. Vérifier si les données sont en cache
+        List<Vehicule> cachedVehicules = cacheService.getCachedList(cacheKey, Vehicule.class);
+        if (cachedVehicules != null) {
+            return cachedVehicules;
+        }
+
+        // 2. Pas en cache, on va chercher en base
+        List<Vehicule> vehicules = vehiculeRepository.findAll();
+        
+        // 3. On met en cache le résultat
+        cacheService.cacheVehiculeData(cacheKey, vehicules);
+        
+        return vehicules;
+    }
+
+    public Page<Vehicule> getByStatusPaginated(VehiculeStatus status, Pageable pageable) {
+        String cacheKey = "vehicules:status:" + status + ":page:" + pageable.getPageNumber() + ":size:" + pageable.getPageSize();
+        
+        // 1. Vérifier si les données sont en cache
+        List<Vehicule> cachedVehicules = cacheService.getCachedList(cacheKey, Vehicule.class);
+        if (cachedVehicules != null) {
+            return new PageImpl<>(cachedVehicules, pageable, cachedVehicules.size());
+        }
+
+        // 2. Pas en cache, on va chercher en base
+        Page<Vehicule> vehicules = vehiculeRepository.findByStatus(status, pageable);
+        
+        // 3. On met en cache le résultat
+        cacheService.cacheVehiculeData(cacheKey, vehicules.getContent());
+        
+        return vehicules;
     }
 
     public Vehicule getById(Long id) {
@@ -94,10 +129,6 @@ public class VehiculeService {
         notificationService.sendNotification("Un véhicule a été mis en vente : " + dto.getMarque() + " " + dto.getModele());
         
         return vehiculeRepository.save(vehicule);
-    }
-
-    public Page<Vehicule> getByStatusPaginated(VehiculeStatus status, Pageable pageable) {
-        return vehiculeRepository.findByStatus(status, pageable);
     }
 
     public Vehicule rentVehicule(Long id) {
