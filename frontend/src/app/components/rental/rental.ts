@@ -45,7 +45,6 @@ export class Rental {
         
         if (response && response.content) {
           this.vehicules.set(response.content);
-          // CORRECTION : Utiliser response.page.totalPages et response.page.number
           this.totalPages = response.page?.totalPages || 1;
           this.page = (response.page?.number || 0) + 1;
         } else {

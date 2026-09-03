@@ -28,7 +28,7 @@ export class Notification implements OnInit {
       this.type = type;
     });
 
-    // Écouter les messages WebSocket (c'est ICI que ça doit se faire)
+    // Écouter les messages WebSocket (c'est là que ça doit se faire)
     this.webSocketService.getNotifications().subscribe(message => {
       this.notificationService.show(message, 'info');
     });

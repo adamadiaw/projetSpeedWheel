@@ -58,8 +58,8 @@ export interface VehiculeForm {
   providedIn: 'root'
 })
 export class VehiculeService {
-  private apiUrl = environment.vehiculesUrl;  // URL corrigée
-  private rentalUrl = environment.rentalsUrl;  // URL corrigée
+  private apiUrl = environment.vehiculesUrl; 
+  private rentalUrl = environment.rentalsUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -117,7 +117,6 @@ export class VehiculeService {
   }
 
   rent(vehiculeId: number, returnDate: string): Observable<any> {
-    // Utilisation de rentalUrl au lieu de apiUrl
     return this.http.post<any>(
       `${this.rentalUrl}?vehiculeId=${vehiculeId}&returnDate=${returnDate}`, 
       {}, 

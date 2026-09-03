@@ -16,11 +16,11 @@ export class WebSocketService {
 
   connect(): void {
     if (this.stompClient && this.stompClient.active) {
-      console.log('WebSocket déjà connecté');
+      //console.log('WebSocket déjà connecté');
       return;
     }
 
-    console.log('Tentative de connexion WebSocket...');
+    //console.log('Tentative de connexion WebSocket...');
     
     const client = new Client({
       webSocketFactory: () => new SockJS(environment.wsUrl),
@@ -31,26 +31,26 @@ export class WebSocketService {
     });
 
     client.onConnect = (frame) => {
-      console.log('✅ WebSocket connecté !');
+      //console.log('WebSocket connecté !');
       this.connectionStatus.next(true);
       
       client.subscribe('/topic/notifications', (message) => {
-        console.log('📩 Notification reçue:', message.body);
+        //console.log('Notification reçue:', message.body);
         this.notifications.next(message.body);
       });
     };
 
     client.onWebSocketClose = () => {
-      console.log('❌ WebSocket déconnecté');
+      //console.log('WebSocket déconnecté');
       this.connectionStatus.next(false);
     };
 
     client.onWebSocketError = (error) => {
-      console.error('⚠️ Erreur WebSocket:', error);
+      console.error('Erreur WebSocket:', error);
     };
 
     client.onStompError = (frame) => {
-      console.error('⚠️ Erreur STOMP:', frame.headers['message']);
+      console.error('Erreur STOMP:', frame.headers['message']);
     };
 
     this.stompClient = client;

@@ -1,12 +1,7 @@
-/* ===========================================
-   STYLES SPÉCIFIQUES À LA PAGE RENTAL
-   =========================================== */
-
 .rental-container {
   min-height: calc(100vh - 200px);
 }
 
-/* Ajustements spécifiques au modal rental */
 .modal-content h3 {
   border-bottom: 1px solid var(--border);
   padding-bottom: 15px;
@@ -20,7 +15,6 @@
   color-scheme: dark;
 }
 
-/* Spécifique aux options de location */
 .options-section {
   background-color: var(--background);
   padding: 15px;

@@ -15,7 +15,7 @@ export class NotificationService {
     this.message.next(message);
     this.type.next(type);
 
-    console.log(`🔔 Notification [${type}]: ${message}`);
+    //console.log(`Notification [${type}]: ${message}`);
 
     // Auto-hide après 3 secondes
     setTimeout(() => {
