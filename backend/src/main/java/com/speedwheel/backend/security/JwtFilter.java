@@ -29,6 +29,12 @@ public class JwtFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         String method = request.getMethod();
 
+        // Ignorer les routes Swagger
+        if (path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs") || path.startsWith("/webjars")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         // Ignorer les routes de notifications
         if (path.startsWith("/api/notifications/")) {
             filterChain.doFilter(request, response);

@@ -25,7 +25,6 @@ public class AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
-        // Pour l'instant, on compare en clair (on ajoutera le hash plus tard)
         if (!user.getPassword().equals(password)) {
             throw new RuntimeException("Mot de passe incorrect");
         }

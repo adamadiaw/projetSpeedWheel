@@ -36,10 +36,10 @@ public class SecurityConfig {
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/vehicules/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/sales/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/rentals/**").permitAll()
-                // AJOUT : Autoriser POST sur /api/rentals avec authentification
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/rentals/**").authenticated()
                 .requestMatchers("/ws/**").permitAll()
                 .requestMatchers("/api/notifications/**").permitAll()
+                .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/api-docs/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

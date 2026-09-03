@@ -30,16 +30,16 @@ public class VehiculeService {
     public List<Vehicule> getAll() {
         String cacheKey = "vehicules:all";
         
-        // 1. Vérifier si les données sont en cache
+        // Vérifier si les données sont en cache
         List<Vehicule> cachedVehicules = cacheService.getCachedList(cacheKey, Vehicule.class);
         if (cachedVehicules != null) {
             return cachedVehicules;
         }
 
-        // 2. Pas en cache, on va chercher en base
+        // Pas en cache, on va chercher en base
         List<Vehicule> vehicules = vehiculeRepository.findAll();
         
-        // 3. On met en cache le résultat
+        // On met en cache le résultat
         cacheService.cacheVehiculeData(cacheKey, vehicules);
         
         return vehicules;
@@ -48,16 +48,16 @@ public class VehiculeService {
     public Page<Vehicule> getByStatusPaginated(VehiculeStatus status, Pageable pageable) {
         String cacheKey = "vehicules:status:" + status + ":page:" + pageable.getPageNumber() + ":size:" + pageable.getPageSize();
         
-        // 1. Vérifier si les données sont en cache
+        // Vérifier si les données sont en cache
         List<Vehicule> cachedVehicules = cacheService.getCachedList(cacheKey, Vehicule.class);
         if (cachedVehicules != null) {
             return new PageImpl<>(cachedVehicules, pageable, cachedVehicules.size());
         }
 
-        // 2. Pas en cache, on va chercher en base
+        // Pas en cache, on va chercher en base
         Page<Vehicule> vehicules = vehiculeRepository.findByStatus(status, pageable);
         
-        // 3. On met en cache le résultat
+        // On met en cache le résultat
         cacheService.cacheVehiculeData(cacheKey, vehicules.getContent());
         
         return vehicules;
