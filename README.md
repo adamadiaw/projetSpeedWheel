@@ -40,6 +40,4 @@ Plateforme de vente, location, import/export de véhicules.
 - Backend : `cd backend && mvn test`
 - Frontend : `cd frontend && npm test`
 
-## Licence
-
-# Adama DIAW
+<div align="right"><code>Adama Diaw</code></div>
